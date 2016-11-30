@@ -12,22 +12,28 @@ css:
 
 - Point your web browser to [https://github.com/dicook/NZSAORSNZ16_workshop](https://github.com/dicook/NZSAORSNZ16_workshop)
 - Download the repo, using "Download ZIP"
+- OR
+- If web is NOT WORKING there will be a copy of the zip file on the H: drive on your computer. Copy this into the "Downloads" directory 
 
 ## WORKING DIRECTORY
 
 - Unzip the files
 - Open RStudio
-- Create a new PROJECT in the directory you just created 
+- Create a new PROJECT in the directory where the workshop files are 
 
 ## GETTING STARTED
 
 - Open the "index.Rmd" file in the "1-intro" folder
 - Click "KnitHTML", which will compile the file into the slides
 
+## SLIDES
+
+You can follow along with the slides by opening the "index.html" file. It will open in your web browser.
+
 ## Outline
 
-- <font color="#7c8a1a"> Session 1: Motivation, why and how to think about data, and getting started with R</font>
-- Session 2: Making basic plots, grammar of graphics, good practices
+- <font color="#7c8a1a"> Session 1: How to think about data, and getting started plotting with the grammar of graphics</font>
+- Session 2: Wrangling data into shape, useful practices, cognitive perception
 - Session 3: Advanced graphics, layering, using maps
 
 ```{r setup, include = FALSE}
@@ -69,12 +75,6 @@ library("plotly")
 ```
 
 
-## These Slides
-
-- This is a "live" document
-- Code and explanations together
-- Run the software to make the calculations on the data, and produce nice presentation, or Word or pdf or html document
-
 ## About R?
 
 - **"R has become the most popular language for data science and an essential tool for Finance and analytics-driven companies such as Google, Facebook, and LinkedIn."** [Microsoft 2015](http://www.revolutionanalytics.com/what-r)
@@ -88,11 +88,11 @@ library("plotly")
 # [1] 7330
 ```
 
-## Relation between R and RStudio
+## Relationship between R and RStudio
 
 [From Julie Lowndes](http://jules32.github.io/resources/RStudio_intro/):
 
-*If R were an airplane, RStudio would be the airport, providing many, many supporting services that make it easier for you, the pilot, to take off and go to awesome places. Sure, you can fly an airplane without an airport, but having those runways and supporting infrastructure is a game-changer.*
+If R were an airplane, RStudio would be the airport, providing many, many supporting services that make it easier for you, the pilot, to take off and go to awesome places. Sure, you can fly an airplane without an airport, but having those runways and supporting infrastructure is a game-changer.
 
 ## The RStudio IDE
 
@@ -100,11 +100,36 @@ library("plotly")
 -  Console window: (1) Highlighting/Tab-completion, (2) Search recent commands
 - Other tabs/panes:  (1) Graphics,  (2) R documentation, (3) Environment pane,   (4) File system navigation/access,  (5) Tools for package development, git, etc
 
+## These Slides
+
+- This is a "live" document
+- Code and explanations together
+- Run the software to make the calculations on the data, and produce nice presentation, or Word or pdf or html document
+- I recommend working this way on all your projects 
+- Its also great for teaching. I have students to submit reports, both the Word file and the Rmd 
+
 ## What is R Markdown?
 
 - From the [R Markdown home page](http://rmarkdown.rstudio.com/):
 
 R Markdown is an authoring format that enables easy creation of dynamic documents, presentations, and reports from R. It combines the core syntax of __markdown__ (an easy-to-write plain text format) __with embedded R code chunks__ that are run so their output can be included in the final document. R Markdown documents are fully reproducible (they can be automatically regenerated whenever underlying R code or data changes).
+
+## Your Turn
+
+![](lorikeets.png)
+
+Let's look at the rmarkdown syntax:
+
+- How does markdown know that the line is code?
+- Name the code chunk option which sets the size of the plot
+- The opening lines in the document are called yaml, and specify title, author, date, type of output, ...
+- What is the markdown syntax indicating a slide title?
+
+## Operations
+
+- The entire document can be "knitted"
+- While developing run code chunk by chunk
+- You can also run line by line, but you need ot be sure that your console window points to the same directory as the Rmd file
 
 ## RStudio Cheatsheets
 
@@ -115,8 +140,6 @@ R Markdown is an authoring format that enables easy creation of dynamic document
     - Data wrangling with tidyr and dplyr
 - 
 - Also see [Garret Grolemund's list of software](https://github.com/rstudio/RStartHere)
-
-
 
 ## Getting data
 
@@ -178,9 +201,14 @@ Pulling data together yourself, or compiled by someone else.
 
 ![](lorikeets.png)
 
-- Take a look at the `pedestrian sensor` data. 
+- Take a look at the `PISA` data, by looking at the `student_codebook.pdf` document. (Full details can be found at [http://www.oecd.org/pisa/pisaproducts/](http://www.oecd.org/pisa/pisaproducts/database-cbapisa2012.htm))
 - Think of 3 questions you could answer using these variables?
 - Write these into your `.Rmd` file. 
+
+```{r}
+student <- readRDS("../data/student_sub.rds")
+str(student)
+```
 
 ## Getting Help on the Web
 
@@ -196,39 +224,6 @@ Pulling data together yourself, or compiled by someone else.
 browseVignettes("dplyr")
 ```
 
-## Your Turn
-
-![](lorikeets.png)
-
-1. Read in the OECD PISA data
-2. Tabulate the countries (CNT)
-3. Extract the values for Australia (AUS) and Shanghai (QCN)
-4. Compute the average and standard deviation of the reading scores (PV1READ), for each country
-
-```{r eval=FALSE, echo=FALSE}
-student2012.sub <- readRDS("data/student_sub.rds")
-table(student2012.sub$CNT)
-australia <- student2012.sub[student2012.sub$CNT=="AUS",]
-shanghai <- student2012.sub[student2012.sub$CNT=="QCN",]
-mean(australia$PV1READ)
-sd(australia$PV1READ)
-mean(shanghai$PV1READ)
-sd(shanghai$PV1READ)
-```
-
-## Australian Election Data
-
-This is a current project (joint with Ben Marwick, Rob Hyndman, Heike Hofmann, Carson Sievert, Nathaniel Tomasetti). Code and data are provided to study the electoral maps and system.
-
-- Spatial boundaries of electorates
-- Results of the 2013 elections
-- 2010 Census data aggregated to electorate level
-
-There is a shiny app that facilitates interactive exploration of the data.
-
-##
-
-<iframe src="https://player.vimeo.com/video/167367369" width="640" height="531" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="https://vimeo.com/167367369">Exploring the Australian electorate</a> from <a href="https://vimeo.com/user14048736">Di Cook</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 
 ## GRAMMAR
 
@@ -237,88 +232,109 @@ There is a shiny app that facilitates interactive exploration of the data.
 - This provides a closer connection between data, plots and models.
 - Enables functional definition of a plot, along the lines of any other type of statistic
 
+## Using the Package `ggplot2`
+
+Elements of a plot
+
+- data
+- aesthetics: mapping of variables to graphical elements
+- geom: type of plot structure to use
+- transformations: log scale, ...
+
+Additional components 
+
+- layers: multiple geoms, multiple data sets, annotation
+- facets: show subsets in different plots
+- themes: modifying style
+
+## Economics
+
+```{r fig.align='center', fig.width=8, fig.height=3}
+ggplot(economics, aes(x=date, y=unemploy)) + geom_point()
+```
+
 ## Mappings
 
-- Date is mapped to position along the x axis
-- Rate is mapped to position along the y axis
-- Currency is mapped to colour
+- date is mapped to position along the x axis
+- unemploy is mapped to position along the y axis
 
-## Information Communication
+- geom_point() is used for the graphical element
 
-```{r fig.width=6, fig.height=3}
-rates <- read_csv("../data/rates.csv")
-rates.sub <- select(rates, date, AUD, NZD, GBP)
-rates.sub.m <- gather(rates.sub, currency, rate, -date)
-ggplot(data=rates.sub.m, aes(x=date, y=rate, colour=currency)) + 
-  geom_line() 
+## add geom_line
+
+```{r fig.align='center', fig.width=8, fig.height=3}
+ggplot(economics, aes(x=date, y=unemploy)) + 
+  geom_point() +
+  geom_line()
 ```
 
->- What can you read from this plot? What is the main observation?
->- The cross-rates for AUD and NZD with the USD are similar, $1USD can buy approximately $1.30 of both, but the GBP is lower, and $1USD only buys 2/3 of a GBP. Do we need a plot to know this?
+## change axis labels
 
-## Communicate Trend: Scale Currencies
-
-```{r fig.width=8, fig.height=4}
-rates.sub <- mutate(rates.sub, AUD=scale(AUD), NZD=scale(NZD), 
-                    GBP=scale(GBP))
-rates.sub$date <- as.Date(rates.sub$date)
-rates.sub.m <- gather(rates.sub, currency, rate, -date)
+```{r fig.align='center', fig.width=8, fig.height=3}
+ggplot(economics, aes(x=date, y=unemploy)) + 
+  geom_point() +
+  geom_line() +
+  ylab("Unemployment ('000s)")
 ```
 
-##
+## Scatterplot
 
-```{r fig.width=6, fig.height=3}
-ggplot(data=rates.sub.m, aes(x=date, y=rate, colour=currency)) +
-         geom_line()
-```
-
-- Now you can read off the trend: the AUD and NZD trend similarly in this time period, but the GBP is different. The GBP goes down in cross-rate, as the AUD/NZD go up.
-
-## Your Turn
-
-![](lorikeets.png)
-
-In the plot below, how are variables mapped to plot elements?
-
-```{r echo=FALSE, fig.align='center', fig.width=6, fig.height=3}
-ggplot(data=rates.sub, aes(x=AUD, y=NZD, colour=date)) + geom_path() + theme(aspect.ratio=1)
-```
-
-```{r echo=FALSE, eval=FALSE}
-AUD rate is mapped to position along the x axis
-NZD rate is mapped to position along the y axis
-first differences are mapped to lines
-date is mapped to colour of line, date at beginning of line
-```
-
-## Adding Marginal Rug Plot
-
-```{r fig.align='center', fig.width=8, fig.height=4}
-ggplot(data=rates.sub, aes(x=AUD, y=NZD)) + 
-  geom_point(alpha=0.2) + geom_rug(colour="red", alpha=0.3) + 
+```{r fig.align='center', fig.width=4, fig.height=4}
+ggplot(economics, aes(x=unemploy, y=psavert)) + 
+  geom_point() +
   theme(aspect.ratio=1)
 ```
 
-## Other Types of Plots
+## Linear fit
 
-- bar charts, pie charts
-- boxplots, violins, 
-- histograms
-- density plots
-- dotplots
+```{r fig.align='center', fig.width=4, fig.height=4}
+ggplot(economics, aes(x=unemploy, y=psavert)) + 
+  geom_point() +
+  theme(aspect.ratio=1) +
+  geom_smooth(method="lm", se=F)
+```
 
-Look up `?geom_histogram` and choose the index for the ggplot2 package. Look at the `geom_` options. There are many! We will only cover the few main ones.
+## Gapminder
 
-## Type of Variables Suggests Mapping
+```{r fig.align='center', fig.width=6, fig.height=3}
+nz <- gapminder %>% filter(country == "New Zealand")
+ggplot(nz, aes(x=year, y=lifeExp)) + geom_line()
+```
 
-1. The values of **quantitative** variables should be mapped to **position along a line**, e.g. histogram, scatterplot. Mapping them to colour will yield only rough return of information to the reader. 
-2. Categorical variables could be mapped to 
-  - colour, if there are few categories,  
-  - aggregated and mapped to position along the line, 
-  - mapped to angle, if all categories are available.
-3. Order is important, and if no natural order available then impose one e.g. using count
+## all the countries
 
-## Categorical Variables - Barchart
+```{r fig.align='center', fig.width=6, fig.height=3}
+ggplot(gapminder, aes(x=year, y=lifeExp, group=country)) +
+  geom_line()
+```
+
+## colour by continent
+
+```{r fig.align='center', fig.width=6, fig.height=3}
+ggplot(gapminder, aes(x=year, y=lifeExp, 
+                      group=country, colour=continent)) +
+  geom_line()
+```
+
+## separately by continent
+
+```{r fig.align='center', fig.width=8, fig.height=3}
+ggplot(gapminder, aes(x=year, y=lifeExp, 
+                      group=country, colour=continent)) +
+  geom_line() +
+  facet_wrap(~continent, ncol=3)
+```
+
+## Type of variable suggests mapping
+
+- The values of **quantitative** variables should be mapped to **position along a line**, e.g. histogram, scatterplot. Mapping them to colour will yield only rough return of information to the reader. 
+- Categorical variables could be mapped to 
+    - colour, if there are few categories,  
+    - aggregated and mapped to position along the line, 
+    - mapped to angle, if all categories are available.
+- Order is important, and if no natural order available then impose one e.g. using count
+
+## Categorical variables 
 
 The social variables of the PISA data include internet usage. This is a subset.
 
@@ -328,14 +344,14 @@ dim(internet)
 colnames(internet)
 ```
 
-## Categorical Variables - Barchart
+## barchart
 
 ```{r fig.width=8, fig.height=4}
 ggplot(data=internet, aes(x=`Social networks`)) + 
   geom_bar(binwidth=0.5) 
 ```
 
-## Categorical Variables - Barchart
+## 
 
 Simpson's paradox may be in play when there are multiple categorical variables. Need to divide it into basic elements. 
 
@@ -345,17 +361,17 @@ ggplot(data=internet, aes(x=`Social networks`)) +
   facet_grid(Gender~name)
 ```
 
-## Categorical Variables - Stacked Barchart
+## stacked barchart
 
-```{r fig.width=8, fig.height=4}
+```{r fig.width=8, fig.height=3.5}
 ggplot(data=internet, aes(x=`Social networks`, fill=Gender)) + 
   geom_bar(binwidth=0.5) +
   facet_wrap(~name, ncol=5) + theme(legend.position="bottom")
 ```
 
-## Categorical Variables - Dodged Bars 
+## dodged bars 
 
-```{r fig.width=8, fig.height=4}
+```{r fig.width=8, fig.height=3.5}
 ggplot(data=internet) + 
   geom_bar(aes(x=`Social networks`, fill=Gender),
           position="dodge") +
@@ -363,9 +379,9 @@ ggplot(data=internet) +
   theme(legend.position="bottom")
 ```
 
-## Categorical Variables - Piechart
+## piechart
 
-```{r fig.width=8, fig.height=4}
+```{r fig.width=8, fig.height=3}
 ggplot(data=internet, aes(x=factor(1), fill=factor(`Social networks`))) + 
   geom_bar(width = 1) + scale_x_discrete("") +
   scale_y_continuous("") +
@@ -375,7 +391,7 @@ ggplot(data=internet, aes(x=factor(1), fill=factor(`Social networks`))) +
 
 Yes, its deliberately made hard to do !
 
-## Quantitative and Categorical - Boxplots
+## Quantitative and categorical 
 
 Data are measurements from the National Research Council in the USA, evaluating graduate programs in Statistics. 
 
@@ -385,7 +401,7 @@ dim(grad)
 colnames(grad)
 ```
 
-##
+## side-by-side boxplots
 
 ```{r fig.width=8, fig.height=4}
 ggplot(data=grad, aes(x=subject, y=AvGREs)) + 
@@ -409,7 +425,7 @@ ggplot(data=grad, aes(x=subject, y=AvGREs)) +
 ## Next session
 
 - Wrangling your data into shape, 
-- Useful graphics, cognitve perception
+- Useful graphics, cognitive perception
 
 ## Credits
 
